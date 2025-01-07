@@ -1,0 +1,73 @@
+<!-- public/form.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>URL Shortener</title>
+  </head>
+  <body>
+    <h1>URL Shortener</h1>
+    <form id="shortenForm" action="/api/shorten" method="POST">
+      <label for="longUrl">Long URL:</label><br />
+      <input type="url" id="longUrl" name="longUrl" required /><br /><br />
+
+      <label for="customAlias">Custom Alias:</label><br />
+      <input type="text" id="customAlias" name="customAlias" /><br /><br />
+
+      <label for="topic">Topic:</label><br />
+      <input type="text" id="topic" name="topic" /><br /><br />
+
+      <!-- Hidden input for user_id -->
+      <input type="hidden" id="userId" name="user_id" />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+
+      // Function to get cookie by name
+      function getCookie(name) {
+        const value = ` ${document.cookie}`;
+
+        const parts = value.split(`; `); // Split by semicolon and space
+        for (let part of parts) {
+           
+          if (part.includes(name+"=")) {
+
+            let a=part.split("=")[1]
+            return a; // Extract the cookie value
+          }
+        }
+        return null;
+   
+      }
+
+    const email = decodeURIComponent(getCookie("email"));
+
+      const token = getCookie("authToken");
+
+      if (token) {
+        const tokenInput = document.createElement("input");
+        tokenInput.type = "hidden";
+        tokenInput.name = "token";
+        tokenInput.value = token;
+        document.getElementById("shortenForm").appendChild(tokenInput);
+        console.log("Token added to form:", tokenInput);
+      }
+
+      if (email) {
+        const userIdField = document.getElementById("userId");
+        if (userIdField) {
+          userIdField.value = email; // Set the value of the input field to the email
+          console.log("Email inserted into userId field:", userIdField.value);
+        } else {
+         console.log("userId input field not found.");
+        }
+      } else {
+        console.log("Email cookie not found.");
+      }
+    </script>
+  </body>
+</html>
