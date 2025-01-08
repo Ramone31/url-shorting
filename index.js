@@ -55,7 +55,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3000', 
+        url: 'https://url-shorting-4qv2.onrender.com', 
       },
     ],
   },
